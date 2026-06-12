@@ -1,0 +1,21 @@
+Create a one-page website for an AI automation agency. 
+
+It should be organized as follows:
+
+- Hero, which says “We build automation systems so businesses can focus on what matters”
+- A social proof banner (logos of Make, n8n, ClickUp, Zapier, and other major automation platforms). this should be a carousel of the logos slowly moving horizontally along the banner. right to left.
+- A “how it works” section in the form of a roadmap that details how the agency fulfills its service; starting with a free “growth mapping call”, leading into a scope phase, and finally a delivery phase.
+- A “services” section. an example list of the services we offer.
+- A “get in touch” section that links to Calendly.com/leftclick-meeting-30. We don’t do forms here, it just links directly to the calendar page.
+
+As users scroll down, sections reveal with smooth fade-in and slide-up animations.
+
+Use scroll-triggered animations throughout - elements should appear and animate as they enter the viewport.
+
+The site should feel premium, modern, and trustworthy - like you're dealing with experts.
+
+Single HTML+CSS+JS file, fully responsive, optimized for performance despite animations.
+
+Think upscale, sleek, luxe, Apple-esque (except dark mode).
+
+for all text you create for the website, create a text folder which contains all the text which I can go and enter and change. id like to be able to easily modify the text so having it a centralsied, clealry labelled file would be helpful. if I havent stated any text content for a section, make somethinh up as a placeholder and I will change later.

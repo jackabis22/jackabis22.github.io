@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[Agency Name] — AI Automation</title>
+  <meta name="description" content="We build automation systems so businesses can focus on what matters." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens ──────────────────────────────────────────────── */
+    :root {
+      --ivory:       #FAF9F6;
+      --ink:         #141413;
+      --accent:      #D97706;
+      --muted:       rgba(20,20,19,0.60);
+      --muted-inv:   rgba(250,249,246,0.60);
+      --border:      rgba(20,20,19,0.10);
+      --border-inv:  rgba(250,249,246,0.18);
+      --font-ui:     'Geist', 'Inter', system-ui, sans-serif;
+      --font-serif:  'DM Serif Display', Georgia, serif;
+      --font-mono:   'Geist Mono', 'JetBrains Mono', monospace;
+    }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-ui);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; }
+
+    /* ── Reveal ──────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ivory);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 8px; }
+    .nav-mark { height: 28px; width: auto; flex-shrink: 0; display: block; }
+    .nav-name { font-weight: 600; font-size: 17px; letter-spacing: -0.02em; }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      font-size: 14px; font-weight: 500;
+    }
+    .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(20,20,19,0.3); }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 14px; font-weight: 500;
+      padding: 10px 20px;
+      background: var(--ink); color: var(--ivory);
+      border: none; cursor: pointer;
+      border-radius: 0;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn:hover { background: rgba(20,20,19,0.85); }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--ink);
+      color: var(--ink);
+    }
+    .btn-ghost:hover { background: rgba(20,20,19,0.05); }
+    .btn-lg { font-size: 15px; padding: 16px 32px; }
+    .btn-inv {
+      background: var(--ivory); color: var(--ink);
+    }
+    .btn-inv:hover { background: #fff; }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      padding: 96px 24px 80px;
+      max-width: 880px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 12px;
+      border: 1px solid var(--ink);
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 32px;
+    }
+    .hero-badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .hero-h1 {
+      font-size: clamp(28px, 4.2vw, 54px);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 24px;
+      text-align: center;
+      width: 100%;
+    }
+    .hero-underline-wrap {
+      display: inline-block;
+      position: relative;
+      white-space: nowrap;
+    }
+    .hero-underline-wrap svg {
+      position: absolute;
+      width: 100%; height: 8px;
+      bottom: -3px; left: 0;
+      color: var(--accent);
+      overflow: visible;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 52ch;
+      margin-bottom: 40px;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+    /* ── Marquee ─────────────────────────────────────────────── */
+    .marquee-section {
+      background: var(--ink); color: var(--ivory);
+      padding: 32px 0; overflow: hidden;
+    }
+    .marquee-label {
+      font-family: var(--font-ui);
+      font-size: 15px;
+      color: rgba(250,249,246,0.55);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 80px;
+      width: max-content;
+      animation: marquee 55s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex; align-items: center;
+      flex-shrink: 0;
+    }
+    .marquee-logo {
+      display: block;
+      height: 37px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+    @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+    /* ── Section scaffold ────────────────────────────────────── */
+    .section-ivory { background: var(--ivory); }
+    .section-ink   { background: var(--ink); color: var(--ivory); }
+    .section-pad { padding: 96px 24px; }
+    .section-inner { max-width: 1160px; margin-inline: auto; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .section-ink .section-label { color: rgba(250,249,246,0.4); }
+    .section-heading {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-ink .section-heading { color: var(--ivory); font-family: var(--font-serif); font-weight: 400; }
+    .section-sub {
+      font-size: 17px; font-weight: 400;
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.65;
+      margin-bottom: 56px;
+    }
+    .section-ink .section-sub { color: var(--muted-inv); }
+
+    /* ── Services grid ───────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-inv);
+      border: 1px solid var(--border-inv);
+    }
+    @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--ink);
+      padding: 40px 32px;
+      display: flex; flex-direction: column;
+      transition: background 0.15s;
+    }
+    .card:hover { background: #1c1c1a; }
+    .card-icon { width: 24px; height: 24px; color: var(--accent); margin-bottom: 24px; }
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 24px; font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--ivory);
+    }
+    .card-body { font-size: 15px; color: var(--muted-inv); line-height: 1.7; }
+
+    /* ── Process / How it works ──────────────────────────────── */
+    .process-split {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .process-row {
+      display: flex; gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .process-row:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .process-row { flex-direction: column; } }
+    .process-num {
+      flex-shrink: 0;
+      width: 88px;
+      padding: 40px 0 40px 0;
+      display: flex; align-items: flex-start; justify-content: center;
+      border-right: 1px solid var(--border);
+    }
+    @media (max-width: 768px) { .process-num { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 24px 0 16px; } }
+    .process-num-text {
+      font-family: var(--font-mono);
+      font-size: 13px; font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .process-content { flex: 1; padding: 40px 40px 40px 40px; }
+    @media (max-width: 768px) { .process-content { padding: 24px 0; } }
+    .process-title {
+      font-size: 22px; font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .process-body { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 58ch; }
+
+    /* ── CTA block ───────────────────────────────────────────── */
+    .cta-card {
+      background: var(--ink); color: var(--ivory);
+      padding: 40px;
+      border: 1px solid var(--ink);
+      position: relative; overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute; top: 0; right: 0;
+      width: 128px; height: 128px;
+      background: rgba(217,119,6,0.10);
+      border-radius: 50%;
+      filter: blur(48px);
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+    }
+    .cta-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .cta-sub { font-size: 17px; color: var(--muted-inv); max-width: 48ch; line-height: 1.6; }
+    .cta-divider { width: 100%; height: 1px; background: rgba(250,249,246,0.15); margin: 8px 0; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      background: var(--ink); color: var(--ivory);
+      padding: 48px 24px;
+      border-top: 1px solid rgba(250,249,246,0.1);
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 1160px; margin-inline: auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 8px; }
+    .footer-mark { height: 24px; width: auto; display: block; filter: brightness(0) invert(1); }
+    .footer-name { font-weight: 600; letter-spacing: -0.02em; font-size: 15px; }
+    .footer-copy { font-size: 13px; color: rgba(250,249,246,0.45); }
+    .footer-email { font-size: 13px; color: rgba(250,249,246,0.55); text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; }
+    .footer-email:hover { color: var(--ivory); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <header>
+    <div class="nav-brand">
+      <img class="nav-mark" src="logo%20folder/Faber%20Logo.svg" alt="Faber Automation" />
+      <span class="nav-name" id="nav-name"></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#process">Process</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn" id="nav-cta" href="#"></a>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="section-ivory">
+    <div class="hero">
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        <span id="hero-badge-text"></span>
+      </div>
+      <h1 class="hero-h1 reveal" id="hero-h1"></h1>
+      <p class="hero-sub reveal" id="hero-sub"></p>
+      <div class="hero-ctas reveal">
+        <a class="btn btn-lg" id="hero-cta-primary" href="#">
+          <span id="hero-cta-label"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-lg btn-ghost" id="hero-cta-secondary" href="#process"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Marquee ── -->
+  <section class="marquee-section">
+    <p class="marquee-label" id="marquee-label"></p>
+    <div style="overflow:hidden">
+      <div class="marquee-track" id="marquee-track"></div>
+    </div>
+  </section>
+
+  <!-- ── Services ── -->
+  <section class="section-ink section-pad" id="services">
+    <div class="section-inner">
+      <p class="section-label reveal">Services</p>
+      <h2 class="section-heading reveal" id="services-heading"></h2>
+      <p class="section-sub reveal" id="services-sub"></p>
+      <div class="card-grid" id="service-cards"></div>
+    </div>
+  </section>
+
+  <!-- ── Process ── -->
+  <section class="section-ivory section-pad" id="process">
+    <div class="section-inner">
+      <p class="section-label reveal">Process</p>
+      <h2 class="section-heading reveal" id="process-heading"></h2>
+      <p class="section-sub reveal" id="process-sub"></p>
+      <div class="process-split" id="phases" style="border-top:1px solid var(--border)"></div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section class="section-ivory section-pad" id="contact" style="padding-top:0">
+    <div class="section-inner">
+      <div class="cta-card reveal">
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+          <h2 class="cta-heading" id="cta-heading"></h2>
+          <p class="cta-sub" id="cta-sub"></p>
+          <div class="cta-divider"></div>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center">
+            <a class="btn btn-lg btn-inv" id="cta-primary" href="#"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="footer-mark" src="logo%20folder/Faber%20Logo.svg" alt="Faber Automation" />
+        <span class="footer-name" id="footer-name"></span>
+      </div>
+      <a class="footer-email" id="footer-email" href="#"></a>
+      <span class="footer-copy" id="footer-copy"></span>
+    </div>
+  </footer>
+
+  <script src="content/text.js"></script>
+  <script>
+    const c = SITE_CONTENT;
+
+    /* ── Nav ── */
+    document.getElementById('nav-name').textContent = c.nav.name;
+    const navCta = document.getElementById('nav-cta');
+    navCta.textContent = c.nav.ctaLabel;
+    navCta.href = c.nav.ctaHref;
+
+    /* ── Hero ── */
+    document.getElementById('hero-badge-text').textContent = c.hero.badge;
+
+    /* Hero headline — line 1 fixed, line 2 cycles through headlineLines */
+    const h1El = document.getElementById('hero-h1');
+    h1El.innerHTML = `${c.hero.headlineLine1}<br><span class="hero-underline-wrap" id="hero-line2-wrap"><span id="hero-line2-text"></span><svg viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M0 4 Q 50 8 100 4" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></span>`;
+
+    const wrapEl = document.getElementById('hero-line2-wrap');
+    const textEl = document.getElementById('hero-line2-text');
+    const lines  = c.hero.headlineLines;
+    let idx = 0;
+    textEl.textContent = lines[0];
+
+    setInterval(() => {
+      wrapEl.getAnimations().forEach(a => a.cancel());
+      const out = wrapEl.animate(
+        [{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-14px)' }],
+        { duration: 280, easing: 'ease-in', fill: 'forwards' }
+      );
+      out.onfinish = () => {
+        idx = (idx + 1) % lines.length;
+        textEl.textContent = lines[idx];
+        const inAnim = wrapEl.animate(
+          [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }],
+          { duration: 380, easing: 'ease-out', fill: 'forwards' }
+        );
+        inAnim.onfinish = () => { wrapEl.getAnimations().forEach(a => a.cancel()); };
+      };
+    }, 2500);
+
+    document.getElementById('hero-sub').textContent = c.hero.subheadline;
+
+    const heroPrimary = document.getElementById('hero-cta-primary');
+    document.getElementById('hero-cta-label').textContent = c.hero.cta;
+    heroPrimary.href = c.hero.ctaHref;
+
+    const heroSecondary = document.getElementById('hero-cta-secondary');
+    heroSecondary.textContent = c.hero.ctaSecondary;
+
+    /* ── Marquee ── */
+    document.getElementById('marquee-label').textContent = c.marquee.label;
+    const track = document.getElementById('marquee-track');
+
+    function makeLogoItem(logo) {
+      const item = document.createElement('div');
+      item.className = 'marquee-item';
+      item.innerHTML = `<img class="marquee-logo" src="${logo.src}" alt="${logo.name}" />`;
+      return item;
+    }
+
+    /* Fill one set until it's wider than the viewport, then duplicate for seamless loop */
+    const logos = c.marquee.logos;
+    let set = [...logos];
+    const estimatedItemPx = 220; /* ~140px avg logo + 80px gap */
+    while (set.length * estimatedItemPx < window.innerWidth + estimatedItemPx) {
+      set = [...set, ...logos];
+    }
+    /* Append set twice — animation goes from 0 to -50% */
+    [...set, ...set].forEach(logo => track.appendChild(makeLogoItem(logo)));
+
+    /* ── Services ── */
+    document.getElementById('services-heading').textContent = c.services.heading;
+    document.getElementById('services-sub').textContent = c.services.subheading;
+
+    const icons = {
+      crm: `<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      bot: `<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`,
+      doc: `<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`
+    };
+
+    const cardsEl = document.getElementById('service-cards');
+    c.services.items.forEach(s => {
+      cardsEl.insertAdjacentHTML('beforeend', `
+        <div class="card reveal">
+          ${icons[s.icon] || ''}
+          <h3 class="card-title">${s.title}</h3>
+          <p class="card-body">${s.body}</p>
+        </div>
+      `);
+    });
+
+    /* ── Process ── */
+    document.getElementById('process-heading').textContent = c.process.heading;
+    document.getElementById('process-sub').textContent = c.process.subheading;
+
+    const phasesEl = document.getElementById('phases');
+    c.process.phases.forEach(p => {
+      phasesEl.insertAdjacentHTML('beforeend', `
+        <div class="process-row reveal">
+          <div class="process-num">
+            <span class="process-num-text">${p.number}</span>
+          </div>
+          <div class="process-content">
+            <h3 class="process-title">${p.title}</h3>
+            <p class="process-body">${p.body}</p>
+          </div>
+        </div>
+      `);
+    });
+
+    /* ── CTA ── */
+    document.getElementById('cta-heading').textContent = c.contact.heading;
+    document.getElementById('cta-sub').textContent = c.contact.subheading;
+    const ctaPrimary = document.getElementById('cta-primary');
+    ctaPrimary.textContent = c.contact.cta;
+    ctaPrimary.href = c.contact.ctaHref;
+
+    /* ── Footer ── */
+    document.getElementById('footer-name').textContent = c.footer.name;
+    document.getElementById('footer-copy').textContent =
+      `© ${c.footer.year} ${c.footer.name}. All rights reserved.`;
+    const emailEl = document.getElementById('footer-email');
+    emailEl.textContent = c.footer.email;
+    emailEl.href = `mailto:${c.footer.email}`;
+
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
