@@ -324,6 +324,13 @@
     .footer-copy { font-size: 13px; color: rgba(250,249,246,0.45); }
     .footer-email { font-size: 13px; color: rgba(250,249,246,0.55); text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; }
     .footer-email:hover { color: var(--ivory); }
+
+    @media (max-width: 768px) {
+      .hero { overflow: hidden; }
+      .hero-h1 { overflow-wrap: break-word; }
+      .hero-underline-wrap { white-space: normal; }
+      .marquee-track { animation-duration: 30s; }
+    }
   </style>
 </head>
 <body>
@@ -433,7 +440,7 @@
 
     /* Hero headline — line 1 fixed, line 2 cycles through headlineLines */
     const h1El = document.getElementById('hero-h1');
-    h1El.innerHTML = `${c.hero.headlineLine1}<br><span class="hero-underline-wrap" id="hero-line2-wrap"><span id="hero-line2-text"></span><svg viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M0 4 Q 50 8 100 4" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></span>`;
+    h1El.innerHTML = `${c.hero.headlineLine1}<br><span class="hero-underline-wrap" id="hero-line2-wrap"><span id="hero-line2-text"></span><svg viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M0 4 L 100 4" stroke="currentColor" stroke-width="2.5" fill="none"/></svg></span>`;
 
     const wrapEl = document.getElementById('hero-line2-wrap');
     const textEl = document.getElementById('hero-line2-text');
